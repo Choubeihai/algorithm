@@ -4,28 +4,43 @@ import "fmt"
 
 func main() {
 	var arr = []int{1, 3, 5, 7, 9}
-	fmt.Println(binarySearch(arr, 0, len(arr)-1, 7))
+	fmt.Println(binarySearchFirstIndex(arr, 0, len(arr)-1, 7))
 }
 
-func binarySearch(arr []int, left, right int, target int) int {
+// 寻找元素出现的第一个位置
+func binarySearchFirstIndex(arr []int, left, right int, target int) int {
 	if left > right {
 		return -1
 	}
-	mid := (left + right) / 2
 	if arr[left] == target {
 		return left
 	}
-	if arr[mid] == target {
-		return mid
-	}
-	if arr[right] == target {
-		return right
-	}
 
+	mid := (left + right) / 2
 	if arr[mid] > target {
-		return binarySearch(arr, left+1, mid-1, target)
+		return binarySearchFirstIndex(arr, left, mid-1, target)
+	} else if arr[mid] == target {
+		return binarySearchFirstIndex(arr, left, mid, target)
 	} else {
-		return binarySearch(arr, mid+1, right-1, target)
+		return binarySearchFirstIndex(arr, mid+1, right, target)
+	}
+}
+
+// 寻找元素出现的最后一个位置
+func binarySearchLastIndex(arr []int, left, right int, target int) int {
+	if left > right {
+		return -1
+	}
+	if arr[left] == target {
+		return left
 	}
 
+	mid := (left + right + 1) / 2
+	if arr[mid] > target {
+		return binarySearchLastIndex(arr, left, mid-1, target)
+	} else if arr[mid] == target {
+		return binarySearchLastIndex(arr, mid, right, target)
+	} else {
+		return binarySearchLastIndex(arr, mid+1, right, target)
+	}
 }

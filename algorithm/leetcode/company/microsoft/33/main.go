@@ -5,8 +5,11 @@ import (
 )
 
 /**
-将数组一分为二，其中一定有一个是有序的，另一个可能有序，也能是部分有序。
-此时有序部分用二分法查找。无序部分再一分为二，其中一个一定有序，另一个可能有序，可能无序。就这样循环.
+4,5,6,7,0,1,2
+思路：我们将数组一分为二，肯定有一边是有序的，而另一边是可能有序的。
+那么我只需要将target与有序的一边比较，如果target位于这一边，则去对这一边进一步一分为二查找；
+如果target不位于这一边，则去对另一边(可能不为有序的一边)进行一分为二的查找。
+所以说，我们每次都是与有序的一边的进行比较。
 */
 
 func main() {
@@ -34,7 +37,6 @@ func binarySearch(nums []int, left int, right int, target int) int {
 	if nums[right] == target {
 		return right
 	}
-
 	if nums[left] < nums[mid] { // 左边有序
 		if target > nums[left] && target < nums[mid] {
 			return binarySearch(nums, left+1, mid-1, target)
