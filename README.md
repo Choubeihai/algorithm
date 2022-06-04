@@ -3,7 +3,7 @@ This is my repo about  some algorithms and some go skills. In my honest, the cod
 
 - algorithm
 
-  most problem come from leetcode，and some are from the company interview.
+  most problems come from leetcode，and some are from the company interview.
 
 - go
 
