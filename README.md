@@ -5,7 +5,7 @@ This is my repo about  some algorithms and some go skills. In my honest, the cod
 
   most problems come from leetcode，and some are from the company interview.
 
-  - spent about 10 days on 1~50，from May 26,2022 to  June 9,2022, I think it is a  milestone that  is  worth to remember it.
+  - spent about 10 days on problem 1~50 in leetcode，from May 26,2022 to  June 9,2022, I think it is a  milestone that  is  worth to remember it.
 
 - go
 
