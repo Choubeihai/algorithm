@@ -5,6 +5,8 @@ import (
 	"math"
 )
 
+// // 结合leetcode 55
+
 func main() {
 	var nums = []int{2, 3, 1, 1, 4}
 	res := jump1(nums)
