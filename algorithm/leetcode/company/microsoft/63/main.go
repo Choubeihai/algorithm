@@ -7,6 +7,49 @@ func main() {
 	fmt.Println(uniquePathsWithObstacles(obstacleGrid))
 }
 
+// 动态规划
+func uniquePathsWithObstacles2(obstacleGrid [][]int) int {
+	var m = len(obstacleGrid)
+	var n = len(obstacleGrid[0])
+	var dp = make([][]int, m)
+	for i := 0; i < m; i++ {
+		dp[i] = make([]int, n)
+	}
+	flag := false
+	for i := 0; i < m; i++ {
+		if flag {
+			dp[i][0] = 0
+		} else if obstacleGrid[i][0] == 1 {
+			flag = true
+			dp[i][0] = 0
+		} else {
+			dp[i][0] = 1
+		}
+	}
+	flag = false
+	for i := 0; i < n; i++ {
+		if flag {
+			dp[0][i] = 0
+		} else if obstacleGrid[0][i] == 1 {
+			flag = true
+			dp[0][i] = 0
+		} else {
+			dp[0][i] = 1
+		}
+	}
+	for i := 1; i < m; i++ {
+		for j := 1; j < n; j++ {
+			if obstacleGrid[i][j] == 1 {
+				dp[i][j] = 0
+			} else {
+				dp[i][j] = dp[i-1][j] + dp[i][j-1]
+			}
+		}
+	}
+	return dp[m-1][n-1]
+}
+
+// 记忆化搜索
 var m int
 var n int
 var memo [][]int

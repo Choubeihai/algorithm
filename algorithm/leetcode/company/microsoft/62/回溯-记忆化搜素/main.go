@@ -7,21 +7,15 @@ package main
 
 */
 
-var visit [][]bool
-var mem [][]int // 当前节点可以达到右下角的路径数
+var memo [][]int // 当前节点可以达到右下角的路径数
 var direction [][]int
 var mm int
 var nn int
 
 func uniquePaths(m, n int) int {
-	visit = make([][]bool, m)
+	memo = make([][]int, m)
 	for i := 0; i < m; i++ {
-		visit[i] = make([]bool, n)
-	}
-
-	mem = make([][]int, m)
-	for i := 0; i < m; i++ {
-		mem[i] = make([]int, n)
+		memo[i] = make([]int, n)
 	}
 
 	direction = [][]int{{1, 0}, {0, 1}}
@@ -32,21 +26,18 @@ func uniquePaths(m, n int) int {
 }
 
 func dfs(x, y int) int {
+	if memo[x][y] != 0 {
+		return memo[x][y]
+	}
 	if x == mm-1 && y == nn-1 {
 		return 1
 	}
-	visit[x][y] = true
 	for i := 0; i < 2; i++ {
 		newX := x + direction[i][0]
 		newY := y + direction[i][1]
-		if newX >= 0 && newX < mm && newY >= 0 && newY < nn && !visit[newX][newY] {
-			if mem[newX][newY] != 0 {
-				mem[x][y] = mem[x][y] + mem[newX][newY]
-			} else {
-				mem[x][y] = mem[x][y] + dfs(newX, newY)
-			}
+		if newX >= 0 && newX < mm && newY >= 0 && newY < nn {
+			memo[x][y] = memo[x][y] + dfs(newX, newY)
 		}
 	}
-	visit[x][y] = false
-	return mem[x][y]
+	return memo[x][y]
 }
