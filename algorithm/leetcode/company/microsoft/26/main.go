@@ -7,11 +7,14 @@ func removeDuplicates(nums []int) int {
 	}
 	var slow = 1
 	var fast = 1
-	for fast = 1; fast < n; fast++ {
-		if nums[fast] != nums[fast-1] {
+
+	for fast < n {
+		if nums[fast] != nums[slow-1] {
 			nums[slow] = nums[fast]
 			slow++
 		}
+		fast++
 	}
 	return slow
+
 }
