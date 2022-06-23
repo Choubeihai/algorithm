@@ -37,6 +37,7 @@ func binarySearch(nums []int, left int, right int, target int) int {
 	if nums[right] == target {
 		return right
 	}
+
 	if nums[left] < nums[mid] { // 左边有序
 		if target > nums[left] && target < nums[mid] {
 			return binarySearch(nums, left+1, mid-1, target)

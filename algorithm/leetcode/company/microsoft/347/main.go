@@ -21,7 +21,7 @@ func topKFrequent2(nums []int, k int) []int {
 	for key, value := range m {
 		kv = append(kv, [2]int{key, value})
 	}
-	res := find(kv, 0, len(kv)-1, k-1)
+	res := find(kv, 0, len(kv)-1, k-1) // 寻找第k大的位置，index为k-1
 	return res
 }
 
@@ -45,6 +45,7 @@ func find(kv [][2]int, left, right, k int) []int {
 	}
 }
 
+// 倒序寻找pivot的位置（从大到小）
 func partition(nums [][2]int, left, right int) int {
 	i := left
 	j := right
@@ -69,7 +70,7 @@ func partition(nums [][2]int, left, right int) int {
 	return i
 }
 
-// 基于堆
+// 基于小顶堆
 func topKFrequent(nums []int, k int) []int {
 	var m = make(map[int]int)
 	for i := 0; i < len(nums); i++ {
