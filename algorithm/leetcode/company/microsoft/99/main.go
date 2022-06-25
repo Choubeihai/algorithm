@@ -12,20 +12,23 @@ func recoverTree(root *TreeNode) {
 	small.Val, big.Val = big.Val, small.Val
 }
 
-// 中序遍历
 func dfs(root *TreeNode) {
 	if root == nil {
 		return
 	}
 	dfs(root.Left)
-	if pre != nil && pre.Val > root.Val {
-		if big == nil {
-			big = pre
-			small = root
-		} else {
-			small = root
+	if pre != nil {
+		if pre.Val > root.Val {
+			if big == nil {
+				big = pre
+				small = root
+			} else {
+				small = root
+			}
+
 		}
 	}
+
 	pre = root
 	dfs(root.Right)
 }
