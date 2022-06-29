@@ -13,8 +13,8 @@ func longestValidParentheses(s string) int {
 	stack := make([]int, n+1)
 	p := -1
 
-	stack[0] = -1
 	p++
+	stack[p] = -1
 
 	for i := 0; i < len(s); i++ {
 		if s[i] == '(' {
