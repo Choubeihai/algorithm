@@ -1,5 +1,11 @@
 package main
 
+/**
+思路：
+S = (y-x)*min{height(x), height(y)}
+这就简单了
+*/
+
 func maxArea(height []int) int {
 	var res = 0
 	var left = 0
