@@ -12,7 +12,7 @@ package main
 2. 这颗左子树的长度是:leftNum = m[value] - inStart
 3. 这颗右子树的长度是:rightNum = inEnd- m[value]
 4. 确定左子树的下标范围: 前序序列：[preStart+1, preStart+leftNum],中序序列：[inStart, m[value]-1]
-5. 确定右子树的下标范围：前序序列：[preEnd-rightNum+1, preEnd], 中序序列：[m[value]+1, inEnd]
+4. 确定右子树的下标范围：前序序列：[preEnd-rightNum+1, preEnd], 中序序列：[m[value]+1, inEnd]
 
 */
 

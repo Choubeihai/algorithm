@@ -2,7 +2,8 @@ package main
 
 // 和第 10 题很像
 func isMatch(s string, p string) bool {
-	m, n := len(s), len(p)
+	m := len(s)
+	n := len(p)
 	dp := make([][]bool, m+1) //dp[m+1][n+1] 表示s的前i个字符与p的前j个字符是否能够匹配
 	for i := 0; i <= m; i++ {
 		dp[i] = make([]bool, n+1)
@@ -29,7 +30,6 @@ func isMatch(s string, p string) bool {
 			if s[i-1] == p[j-1] || p[j-1] == '?' {
 				dp[i][j] = dp[i-1][j-1]
 			} else if p[j-1] == '*' {
-				// 第j个字符为*，
 				// dp[i][j-1]表示*代表0个字符，所以取dp[i][j-1]
 				// dp[i-1][j]表示*代表1个或者1个以上字符，所以将s的字符删除一个，仍然可以匹配，取dp[i-1][j]
 				dp[i][j] = dp[i][j-1] || dp[i-1][j]

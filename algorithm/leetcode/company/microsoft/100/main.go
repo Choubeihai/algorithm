@@ -6,7 +6,7 @@ package main
 2. 只有一方为空，返回false
 3. 接下来按照前序 中序 后序遍历都行，这里我以中序为例
 4. 先左子树
-5. 判断根节点
+4. 判断根节点
 6. 最后右子树
 */
 func isSameTree(p *TreeNode, q *TreeNode) bool {

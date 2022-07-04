@@ -15,7 +15,7 @@ func main() {
        即:dp[i]=∑dp[j]*dp[i-1-j],其中j∈[0,i-1]
    3.初始化:dp[0]=1,dp[1]=dp[0]*dp[0]=1
    4.遍历顺序:正序
-   5.返回形式:返回dp[n]
+   4.返回形式:返回dp[n]
 */
 func numTrees(n int) int {
 	dp := make([]int, n+1) //dp[n]表示i个节点存在的二叉排序树的个数
