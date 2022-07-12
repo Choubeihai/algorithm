@@ -1,24 +1,24 @@
 package main
 
 func lengthOfLongestSubstring(s string) int {
-	m := make(map[rune]int)
+	m := make(map[byte]int)
 	start := 0
-	length := 0
-	for i, ch := range s {
-		if index, ok := m[ch]; ok {
+	res := 0
+	for i := 0; i < len(s); i++ {
+		if index, ok := m[s[i]]; ok {
 			if start < index+1 {
 				start = index + 1
 			}
-			if length < i-start+1 {
-				length = i - start + 1
+			m[s[i]] = i
+			if i-start+1 > res {
+				res = i - start + 1
 			}
-			m[ch] = i
 		} else {
-			m[ch] = i
-			if length < i-start+1 {
-				length = i - start + 1
+			m[s[i]] = i
+			if i-start+1 > res {
+				res = i - start + 1
 			}
 		}
 	}
-	return length
+	return res
 }

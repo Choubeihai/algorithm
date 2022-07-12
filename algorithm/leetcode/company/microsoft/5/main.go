@@ -12,7 +12,7 @@ func longestPalindrome(s string) string {
 	if n <= 1 {
 		return s
 	}
-	dp := make([][]bool, n)
+	dp := make([][]bool, n) // dp[i][j]: 左边界为i，右边界为j
 	for i := 0; i < n; i++ {
 		dp[i] = make([]bool, n)
 	}
