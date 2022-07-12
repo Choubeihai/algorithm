@@ -5,6 +5,10 @@ type ListNode struct {
 	Next *ListNode
 }
 
+func main() {
+
+}
+
 // 利用分治法
 func mergeKLists(lists []*ListNode) *ListNode {
 	var n = len(lists)
