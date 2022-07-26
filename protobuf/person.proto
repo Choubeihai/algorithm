@@ -1,0 +1,27 @@
+syntax = "proto3";
+option go_package = "./;hello";
+
+package hello;
+
+message Person {
+  string name = 1;
+  int32 age = 2;
+  string email = 3;
+  Product p = 4;
+}
+
+enum Product {
+  option allow_alias = true;
+  ONE = 0;
+  TWO = 0;
+}
+
+message Family {
+  repeated Person persons = 1; // repeated相当于std中的vector，一个装同样数据类型的容器
+  reserved 2,3,4,5,6,7,8,9,10,15; // 保留字段编号
+  reserved "foo", "func"; // 保留字段名称
+
+}
+
+// 编译命令：protoc --go_out="输出路径" 编译的文件路径
+// protoc --go_out=./go ./person.proto

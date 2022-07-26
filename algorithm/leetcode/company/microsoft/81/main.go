@@ -5,8 +5,8 @@ import (
 )
 
 func main() {
-	nums2 := []int{2, 2, 2, 0, 0, 1}
-	target2 := 0
+	nums2 := []int{2, 2, 0, 0, 1}
+	target2 := 1
 	//nums2 := []int{1, 0, 1, 1, 1}
 	//target2 := 0
 	fmt.Println(search(nums2, target2))
@@ -36,16 +36,16 @@ func binarySearch(nums []int, left, right int, target int) bool {
 	}
 
 	if nums[left] < nums[mid] {
-		if nums[left] <= target && nums[mid] > target {
-			return binarySearch(nums, left, mid-1, target)
+		if nums[left] < target && nums[mid] > target {
+			return binarySearch(nums, left+1, mid-1, target)
 		} else {
-			return binarySearch(nums, mid+1, right, target)
+			return binarySearch(nums, mid+1, right-1, target)
 		}
 	} else {
-		if nums[mid] < target && nums[right] >= target {
-			return binarySearch(nums, mid+1, right, target)
+		if nums[mid] < target && nums[right] > target {
+			return binarySearch(nums, mid+1, right-1, target)
 		} else {
-			return binarySearch(nums, left, mid-1, target)
+			return binarySearch(nums, left+1, mid-1, target)
 		}
 	}
 }

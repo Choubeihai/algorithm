@@ -28,12 +28,13 @@ func divide(dividend int, divisor int) int {
 		i := 1
 		tmp := divisor
 		for dividend >= tmp {
-			dividend = dividend - tmp
+			dividend -= tmp
 			res += i
 			tmp = tmp << 1
 			i = i << 1
 		}
 	}
+
 	res = res * sign
 	if res > math.MaxInt32 || res < math.MinInt32 {
 		return math.MaxInt32

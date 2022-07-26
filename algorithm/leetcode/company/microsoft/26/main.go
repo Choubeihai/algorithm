@@ -16,5 +16,4 @@ func removeDuplicates(nums []int) int {
 		fast++
 	}
 	return slow
-
 }
