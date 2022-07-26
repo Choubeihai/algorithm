@@ -8,6 +8,7 @@ func swapPairs(head *ListNode) *ListNode {
 	dummy.Next = head
 	var p1, p2 = dummy, head
 	var p *ListNode
+
 	for p2 != nil && p2.Next != nil {
 		p2 = p2.Next
 		p = p1.Next
