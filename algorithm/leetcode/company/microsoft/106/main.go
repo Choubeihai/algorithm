@@ -1,31 +1,24 @@
 package main
 
-func sortedListToBST(head *ListNode) *TreeNode {
-
-	return build(head)
+func buildTree(inorder []int, postorder []int) *TreeNode {
+	var m = make(map[int]int)
+	var n = len(inorder)
+	for i := 0; i < n; i++ {
+		m[inorder[i]] = i
+	}
+	return build(inorder, 0, n-1, postorder, 0, n-1, m)
 }
 
-func build(head *ListNode) *TreeNode {
-	if head == nil {
+func build(inorder []int, inLeft, inRight int, postorder []int, postLeft, postRight int, m map[int]int) *TreeNode {
+	if postLeft > postRight {
 		return nil
 	}
-	var preSlow *ListNode
-	slow := head
-	fast := head
-	for fast != nil && fast.Next != nil {
-		preSlow = slow
-		slow = slow.Next
-		fast = fast.Next.Next
-	}
-
-	root := &TreeNode{}
-	root.Val = slow.Val
-	if preSlow != nil {
-		preSlow.Next = nil
-		root.Left = build(head)
-	}
-
-	root.Right = build(slow.Next)
+	var root = &TreeNode{}
+	root.Val = postorder[postRight]
+	leftLength := m[root.Val] - inLeft
+	rightLength := inRight - m[root.Val]
+	root.Left = build(inorder, inLeft, m[root.Val]-1, postorder, postLeft, postLeft+leftLength-1, m)
+	root.Right = build(inorder, m[root.Val]+1, inRight, postorder, postRight-rightLength, postRight-1, m)
 	return root
 }
 
@@ -33,9 +26,4 @@ type TreeNode struct {
 	Val   int
 	Left  *TreeNode
 	Right *TreeNode
-}
-
-type ListNode struct {
-	Val  int
-	Next *ListNode
 }

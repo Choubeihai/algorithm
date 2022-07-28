@@ -8,7 +8,7 @@ func main() {
 	fmt.Println(isMatch(s, p))
 }
 
-// 和第 44 题很像
+// 和第 44 题很像 115
 func isMatch(s string, p string) bool {
 	m, n := len(s), len(p)
 	dp := make([][]bool, m+1) //dp[m+1][n+1] 表示s的前i个字符与p的前j个字符是否能够匹配
