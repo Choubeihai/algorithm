@@ -10,26 +10,20 @@
 ```go
 type RWMutex struct {
 	w           Mutex  // held if there are pending writers
-	writerSem   uint32 // semaphore for writers to wait for completing readers
-	readerSem   uint32 // semaphore for readers to wait for completing writers
-	readerCount int32  // number of pending readers
-	readerWait  int32  // number of departing readers
+	writerSem   uint32 // 用于writer等待 读完成 排队的信号量
+	readerSem   uint32 // 用于reader等待 写完成 排队的信号量
+	readerCount int32  // 读锁的计数器
+	readerWait  int32  // 等待读锁释放的数量
 }
 ```
 
-读写锁支持的最大并发读协程的数量是 1 << 30，也就是 2 的 30次方个，这已经非常大了，几乎不会有日常的业务开发能触及到这个量级。
+最多可以有1<<30个读并发协程，即2的30此次。
 
-这里可以看出 RWMutex 也是基于 Mutex 的能力进行的包装，我们记得 Mutex 只包含了一个 state 代表状态，一个 sem 代表信号量。这里读写锁为了进一步拆分粒度。增加了下面几个变量：
-
-- writerSem: 写阻塞等待的信号量，最后一个读者释放锁时，会释放该信号量；
-- readerSem: 读阻塞的协程等待的信号量，持有写锁的协程释放锁后，会释放该信号量；
-- readerCount: 拿到锁的 readers 数量
-- readerWait: 正在写阻塞时的的 readers 数量。
 
 ## 实现
 
-1. 写操作相互阻塞：写操作之间的控制依赖于内置的 Mutex
-2. 写操作阻塞读操作：写操作是将 readerCount 变成负值来阻止读操作的。
-3. 在执行写锁定，即 `Lock()` 时，会先将 readerCount 减去 1 << 30，这样就小于0了。再有读锁定到来的时候，检测 readerCount，发现为负数，就知道此时已经有写操作进行了，读需要阻塞。而真实的【读操作的数量】，只需要 readerCount 再加上 1 << 30 就拿到了。
-4. **读操作阻塞写操作** ：写操作只要发现有正在进行的读操作，就应该停下来阻塞到这里。这个直接通过 readerCount 就可以判断。
-5. **如何保证写操作不会饿死**：写操作上锁的 `Lock()` 函数中，会把 readerCount 的值复制到 readerWait，用来标记【排在写操作前面的 reader 个数】。当排在前面的 reader 完事的时候，会递减 readerCount 的值，并同时递减 readerWait 的值。当 readerWait 等于 0 时会唤醒写操作。一句话：写操作相当于把一段连续的读操作分成两个部分，前一部分完成的时候，通过 writerSem 唤醒写操作，实现插队的效果。
+读锁其实就是无锁，写锁基于Mutex
+1. 读锁加锁：会首先判断readCount+1后是否小于0,如果小于，则说明正在写，直接被阻塞；如果大于，则直接读；
+2. 读锁解锁，readCount--,如果readCount==0而且当前有阻塞的写协程，那么唤醒被阻塞的写协程；否则直接退出；
+3. 写锁加锁：写锁执行Lock函数，将readCount的值复制到readWait中，用来标记排在写操作前面的协程，当排在前面的Reader完事以后，同时递减ReadCount和ReadWait，当ReadWait为0时，当readCount为0时，唤醒写操作，将ReadCount减去1<<30；
+4. 写操作解锁：写操作执行readCount+1<<30,然后执行UnLock。

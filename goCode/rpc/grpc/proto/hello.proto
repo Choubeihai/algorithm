@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package main;
 
-option go_package = "../pb.go";
+option go_package = "../pb.goCode";
 
 message String {
   string value = 1;

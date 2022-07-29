@@ -9,7 +9,7 @@ import (
 
 const Letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
-// go:noinline
+// goCode:noinline
 func generate(n int) string {
 	var buf bytes.Buffer
 	for i := 0; i < n; i++ {
@@ -18,7 +18,7 @@ func generate(n int) string {
 	return buf.String()
 }
 
-//go:noinline
+//goCode:noinline
 func repeat(s string, n int) string {
 	var result string
 	for i := 0; i < n; i++ {

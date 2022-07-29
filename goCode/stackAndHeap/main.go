@@ -1,6 +1,6 @@
 package main
 
-//go:noinline
+//goCode:noinline
 func foo(arg_val int) *int {
 
 	var foo_val1 int = 11
