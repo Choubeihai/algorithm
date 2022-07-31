@@ -17,6 +17,7 @@ func dfs(root *Node) {
 			for p != nil && p.Left == nil && p.Right == nil {
 				p = p.Next
 			}
+
 			if p != nil {
 				if p.Left != nil {
 					root.Left.Next = p.Left
@@ -41,8 +42,10 @@ func dfs(root *Node) {
 			}
 		}
 	}
-	dfs(root.Left)
+
+	// 注意要先递归右节点，先递归左节点时其上层的next指针可能没有全部建立完成
 	dfs(root.Right)
+	dfs(root.Left)
 }
 
 type Node struct {
