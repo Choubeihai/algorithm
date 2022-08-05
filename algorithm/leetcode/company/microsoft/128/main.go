@@ -2,21 +2,29 @@ package main
 
 func longestConsecutive(nums []int) int {
 	var m = make(map[int]bool)
+	var res int
 	for i := 0; i < len(nums); i++ {
 		m[nums[i]] = true
 	}
-	var res int
 	for num := range m {
-		if !m[num-1] {
-			tmpRes := 0
+		if m[num-1] {
+			continue
+		} else {
+			var tmp = 0
 			for m[num] {
-				tmpRes++
+				tmp++
 				num++
 			}
-			if tmpRes > res {
-				res = tmpRes
-			}
+			res = max(res, tmp)
 		}
 	}
 	return res
+}
+
+func max(a, b int) int {
+	if a > b {
+		return a
+	} else {
+		return b
+	}
 }
