@@ -11,15 +11,15 @@ func mergeKLists(lists []*ListNode) *ListNode {
 	if n == 0 {
 		return nil
 	}
-	if n == 1 {
-		return lists[0]
-	}
-	for n > 1 {
-		mid := (n + 1) / 2
-		for i := 0; i < n/2; i++ {
-			lists[i] = merge(lists[i], lists[i+mid])
+	var m = (n + 1) / 2
+	var mid = n / 2
+	for n != 1 {
+		for i := 0; i < mid; i++ {
+			lists[i] = merge(lists[i], lists[i+m])
 		}
-		n = mid
+		n = m
+		m = (n + 1) / 2
+		mid = n / 2
 	}
 	return lists[0]
 }
