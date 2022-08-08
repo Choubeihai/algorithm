@@ -149,6 +149,21 @@ Web 开发这么成熟的领域，肯定是有现成的解决办法的，那就�
 X-Forwarded-For: client, proxy1, proxy2
 ```
 
+举一个例子：
+
+1. 用户IP0—>代理Proxy1（IP1），Proxy1记录用户IP0，并将请求转发个Proxy2时，带上一个Http Header
+    `X-Forwarded-For: IP0`
+
+2. Proxy2收到请求后读取到请求有 `X-Forwarded-For: IP0`，然后proxy2 继续把链接上来的proxy1 ip**追加**到 X-Forwarded-For 上面，构造出`X-Forwarded-For: IP0, IP1`，继续转发请求给Proxy 3
+
+3. Proxy3 将 `X-Forwarded-For: IP0, IP1, IP2`,转发给真正的服务器，比如NGINX，nginx收到了http请求，里面就是 `X-Forwarded-For: IP0, IP1, IP2` 这样的结果。所以Proxy 3 的IP3，不会出现在这里。
+
+nginx 获取proxy3的IP 能通过remote address获取到，因为remote_address就是真正建立TCP链接的IP，这个不能伪造，是直接产生链接的IP。**$remote_address  无法伪造，因为建立 TCP 连接需要三次握手，如果伪造了源 IP，无法建立 TCP 连接，更不会有后面的 HTTP 请求。**
+
+即：
+
+用户的 IP 为（A）,分别经过两个代理服务器（B，C），最后到达 Web 服务器，那么Web 服务器接收到的 X-Forwarded-For 就是 A,B。
+
 因为 IP 是一个一个依次 push 进去的，那么第一个 IP 就是用户的真实 IP，取来用就好了。
 
 **但是，事实有这么简单吗？**
