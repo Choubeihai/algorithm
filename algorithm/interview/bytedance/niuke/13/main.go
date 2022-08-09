@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 /**
 一个整数数组，长度为n，将其分为m份，使各份的和相等，求m的最大值
     比如{3，2，4，3，6} 可以分成{3，2，4，3，6} m=1;
@@ -7,11 +9,12 @@ package main
     {3,3}{2,4}{6} m=3 所以m的最大值为3
 */
 
-import "fmt"
-
 func main() {
-	var arr = []int{3, 3, 2, 2}
+	//var arr = []int{3, 2, 4, 3, 6}
+	//var arr = []int{3, 3, 2, 2}
+	var arr = []int{3, 1, 5, 1}
 	fmt.Println(divideArray(arr))
+
 }
 
 func divideArray(arr []int) int {
@@ -32,11 +35,11 @@ func divideArray(arr []int) int {
 				if tag[i] {
 					continue
 				}
-				tag[i] = true
-				if !recur(arr, tag, subSum-arr[i]) {
+				if !recur(arr, tag, subSum) {
 					break
 				}
 			}
+
 			if i == n {
 				break
 			}
@@ -47,9 +50,7 @@ func divideArray(arr []int) int {
 }
 
 func recur(arr []int, tag []bool, sum int) bool {
-	if sum < 0 {
-		return false
-	} else if sum == 0 {
+	if sum == 0 {
 		return true
 	}
 
@@ -69,5 +70,6 @@ func recur(arr []int, tag []bool, sum int) bool {
 		}
 
 	}
+
 	return false
 }
