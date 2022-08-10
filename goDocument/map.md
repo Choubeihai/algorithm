@@ -27,7 +27,7 @@ map 对 key 进行 hash 运算，然后取低 B 位，以确定 key 在桶里的
 
 当得到桶的位置后，会继续取 hash 值的高 8 位得到 top hash，然后遍历 tophash 数组，寻找到 top hash 元素的 index 位置。
 
-如果当前找不到，但 overflow 不为空，则继续到 overflow 里寻找 index 位置。
+如果当前找不到，但 overflow 不为空，则遍历overflow的tophash数组，寻找到 top hash 元素的 index 位置。
 
 当找到 top hash 的 index 位置后，也就确定了 key 在 keys 数组里的索引位置了，此时会再比较一下是否跟想寻找的 key 相等。
 

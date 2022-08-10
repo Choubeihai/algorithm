@@ -10,13 +10,66 @@ import "fmt"
 */
 
 func main() {
-	//var arr = []int{3, 2, 4, 3, 6}
+	var arr = []int{3, 2, 4, 3, 6}
 	//var arr = []int{3, 3, 2, 2}
-	var arr = []int{3, 1, 5, 1}
-	fmt.Println(divideArray(arr))
+	//var arr = []int{3, 1, 5, 1}
+	//fmt.Println(divideArray(arr))
+	fmt.Println(arrayPartition(arr))
 
 }
 
+// 方案一
+func arrayPartition(arr []int) int {
+	n := len(arr)
+	sum := 0
+	for i := 0; i < n; i++ {
+		sum += arr[i]
+	}
+	m := n
+	for m > 0 {
+		if sum%m != 0 {
+			m--
+			continue
+		} else {
+			subSum := sum / m
+			tag := make([]bool, n)
+			i := 0
+			for ; i < n; i++ {
+				dfs(arr, tag, subSum)
+			}
+
+			i = 0
+			for ; i < n; i++ {
+				if !tag[i] {
+					break
+				}
+
+			}
+			if i == n {
+				return m
+			}
+
+			m--
+		}
+	}
+	return m
+}
+
+func dfs(arr []int, tag []bool, sum int) {
+	if sum <= 0 {
+		return
+	}
+	for i := 0; i < len(arr); i++ {
+		if tag[i] || sum-arr[i] < 0 {
+			continue
+		} else {
+			tag[i] = true
+			dfs(arr, tag, sum-arr[i])
+		}
+	}
+}
+
+// 方案二
 func divideArray(arr []int) int {
 	n := len(arr)
 	sum := 0
