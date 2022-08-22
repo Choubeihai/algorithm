@@ -1,39 +1,37 @@
 package main
 
 func spiralOrder(matrix [][]int) []int {
-	if len(matrix) == 0 || len(matrix[0]) == 0 {
-		return []int{}
-	}
-	var (
-		rows, columns            = len(matrix), len(matrix[0])
-		order                    = make([]int, rows*columns)
-		index                    = 0
-		left, right, top, bottom = 0, columns - 1, 0, rows - 1
-	)
+	var m = len(matrix)
+	var n = len(matrix[0])
+
+	var left = 0
+	var right = n - 1
+	var top = 0
+	var bottom = m - 1
+
+	var res []int
 
 	for left <= right && top <= bottom {
-		for column := left; column <= right; column++ {
-			order[index] = matrix[top][column]
-			index++
+		for i := left; i <= right; i++ {
+			res = append(res, matrix[top][i])
 		}
-		for row := top + 1; row <= bottom; row++ {
-			order[index] = matrix[row][right]
-			index++
+		for i := top + 1; i <= bottom; i++ {
+			res = append(res, matrix[i][right])
 		}
 		if left < right && top < bottom {
-			for column := right - 1; column > left; column-- {
-				order[index] = matrix[bottom][column]
-				index++
+			for i := right - 1; i >= left; i-- {
+				res = append(res, matrix[bottom][i])
 			}
-			for row := bottom; row > top; row-- {
-				order[index] = matrix[row][left]
-				index++
+
+			for i := bottom - 1; i > top; i-- {
+				res = append(res, matrix[i][left])
 			}
 		}
+
 		left++
 		right--
 		top++
 		bottom--
 	}
-	return order
+	return res
 }

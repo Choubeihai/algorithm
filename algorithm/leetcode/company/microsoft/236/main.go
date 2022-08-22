@@ -4,21 +4,23 @@ func lowestCommonAncestor(root, p, q *TreeNode) *TreeNode {
 	return dfs(root, p, q)
 }
 
-func dfs(root, p, q *TreeNode) *TreeNode {
+func dfs(root *TreeNode, p, q *TreeNode) *TreeNode {
 	if root == nil {
 		return nil
 	}
 	if root.Val == p.Val || root.Val == q.Val {
 		return root
 	}
-	left := dfs(root.Left, p, q)
-	right := dfs(root.Right, p, q)
-	if left != nil && right != nil {
+	l := dfs(root.Left, p, q)
+	r := dfs(root.Right, p, q)
+	if l != nil && r != nil {
 		return root
-	} else if left != nil {
-		return left
+	} else if l != nil {
+		return l
+	} else if r != nil {
+		return r
 	} else {
-		return right
+		return nil
 	}
 }
 

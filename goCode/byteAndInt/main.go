@@ -13,4 +13,7 @@ func main() {
 	fmt.Println(byte(b))  // 输出49
 	fmt.Printf("%q\n", b) // 输出'1'
 	fmt.Printf("%c\n", b) // 输出 1
+
+	var c byte = 'a'
+	fmt.Println(string(c))
 }
