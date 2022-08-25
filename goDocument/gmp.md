@@ -16,7 +16,7 @@ CSP：Communicating Sequential Process，通信顺序进程，由Go语言中goro
 ## 调度策略
 
 1. work stealing机制：当本线程无可运行的 G 时，尝试从其他线程绑定的 P 偷取 G，而不是销毁线程，CAS操作
-2. hand off机制
+2. hand off机制：当本线程 M 因为 G 进行的系统调用阻塞时，线程释放绑定的 P，把 P 转移给其他空闲的 M’执行。当发生上线文切换时，需要对执行现场进行保护，以便下次被调度执行时进行现场恢复
 3. 抢占机制
 4. 全局队列机制
 
