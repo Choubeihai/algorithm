@@ -19,36 +19,35 @@ func main() {
 }
 
 func search(nums []int, target int) int {
-	return binarySearch(nums, 0, len(nums)-1, target)
+	var n = len(nums)
+	return find(nums, 0, n-1, target)
 }
 
-func binarySearch(nums []int, left int, right int, target int) int {
-	if left > right {
-		return -1
+func find(nums []int, left, right int, target int) int {
+	/**
+	不需要考虑left > right的情况，因为mid=(left+right)/2，左侧是[left, mid], 右侧是[mid+1, right]
+	mid计算公式决定了mid一定小于right， 可能等于left，因此不会越界。
+	*/
+	if left == right {
+		if nums[left] == target {
+			return left
+		} else {
+			return -1
+		}
 	}
 
 	mid := (left + right) / 2
-	if nums[left] == target {
-		return left
-	}
-	if nums[mid] == target {
-		return mid
-	}
-	if nums[right] == target {
-		return right
-	}
-
-	if nums[left] < nums[mid] { // 左边有序
-		if target > nums[left] && target < nums[mid] {
-			return binarySearch(nums, left+1, mid-1, target)
+	if nums[left] <= nums[mid] { // 左侧有序，一定要加=，因为left可能等于mid
+		if target >= nums[left] && target <= nums[mid] {
+			return find(nums, left, mid, target)
 		} else {
-			return binarySearch(nums, mid+1, right-1, target)
+			return find(nums, mid+1, right, target)
 		}
-	} else {
-		if target > nums[mid] && target < nums[right] {
-			return binarySearch(nums, mid+1, right-1, target)
+	} else { // 右侧有序
+		if target >= nums[mid+1] && target <= nums[right] {
+			return find(nums, mid+1, right, target)
 		} else {
-			return binarySearch(nums, left+1, mid-1, target)
+			return find(nums, left, mid, target)
 		}
 	}
 }

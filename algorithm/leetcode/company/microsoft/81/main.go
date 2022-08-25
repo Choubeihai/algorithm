@@ -14,14 +14,21 @@ func main() {
 
 // 和leetcode 33 题很像
 func search(nums []int, target int) bool {
-	return binarySearch(nums, 0, len(nums)-1, target)
+	var n = len(nums)
+	return find(nums, 0, n-1, target)
 }
 
-func binarySearch(nums []int, left, right int, target int) bool {
-	if left > right {
-		return false
+func find(nums []int, left, right int, target int) bool {
+	if left == right {
+		if nums[left] == target {
+			return true
+		} else {
+			return false
+		}
 	}
+
 	mid := (left + right) / 2
+
 	if nums[mid] == target {
 		return true
 	}
@@ -32,20 +39,19 @@ func binarySearch(nums []int, left, right int, target int) bool {
 		return true
 	}
 	if nums[left] == nums[mid] {
-		return binarySearch(nums, left+1, right, target)
+		return find(nums, left+1, right, target)
 	}
-
-	if nums[left] < nums[mid] {
-		if nums[left] < target && nums[mid] > target {
-			return binarySearch(nums, left+1, mid-1, target)
+	if nums[left] <= nums[mid] { // 左侧有序，一定要加=，因为left可能等于mid
+		if target >= nums[left] && target <= nums[mid] {
+			return find(nums, left, mid, target)
 		} else {
-			return binarySearch(nums, mid+1, right-1, target)
+			return find(nums, mid+1, right, target)
 		}
-	} else {
-		if nums[mid] < target && nums[right] > target {
-			return binarySearch(nums, mid+1, right-1, target)
+	} else { // 右侧有序
+		if target >= nums[mid+1] && target <= nums[right] {
+			return find(nums, mid+1, right, target)
 		} else {
-			return binarySearch(nums, left+1, mid-1, target)
+			return find(nums, left, mid, target)
 		}
 	}
 }
