@@ -1,48 +1,45 @@
 package main
 
-var neighborWithEdgeO [][]bool
+var tag [][]bool
 
 func solve(board [][]byte) {
 	var m = len(board)
 	var n = len(board[0])
-	if m == 0 || n == 0 {
-		return
-	}
-	neighborWithEdgeO = make([][]bool, m)
+	tag = make([][]bool, m)
 	for i := 0; i < m; i++ {
-		neighborWithEdgeO[i] = make([]bool, n)
+		tag[i] = make([]bool, n)
 	}
-	for i := 0; i < m; i++ {
-		dfs(board, i, 0)
-		dfs(board, i, n-1)
-	}
-	for i := 0; i < n; i++ {
-		dfs(board, 0, i)
-		dfs(board, m-1, i)
-	}
-
 	for i := 0; i < m; i++ {
 		for j := 0; j < n; j++ {
-			if board[i][j] == 'O' && !neighborWithEdgeO[i][j] {
+			if i == 0 || i == m-1 {
+				dfs(board, i, j)
+			} else if j == 0 || j == n-1 {
+				dfs(board, i, j)
+			}
+		}
+	}
+	for i := 0; i < m; i++ {
+		for j := 0; j < n; j++ {
+			if tag[i][j] == false && board[i][j] == 'O' {
 				board[i][j] = 'X'
 			}
 		}
 	}
 }
 
-func dfs(board [][]byte, x, y int) {
-	if x < 0 || x >= len(board) || y < 0 || y >= len(board[0]) {
+func dfs(grid [][]byte, x, y int) {
+	if x >= len(grid) || x < 0 || y >= len(grid[0]) || y < 0 {
 		return
 	}
-	if board[x][y] != 'O' {
+	if grid[x][y] == 'X' {
 		return
 	}
-	if neighborWithEdgeO[x][y] {
+	if tag[x][y] == true {
 		return
 	}
-	neighborWithEdgeO[x][y] = true
-	dfs(board, x+1, y)
-	dfs(board, x-1, y)
-	dfs(board, x, y-1)
-	dfs(board, x, y+1)
+	tag[x][y] = true
+	dfs(grid, x, y+1)
+	dfs(grid, x+1, y)
+	dfs(grid, x, y-1)
+	dfs(grid, x-1, y)
 }
