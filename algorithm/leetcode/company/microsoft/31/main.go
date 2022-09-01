@@ -22,7 +22,8 @@ import "fmt"
 */
 
 func main() {
-	var arr = []int{9, 8, 1, 9, 4, 6, 5, 5}
+	//var arr1 = []int{9, 8, 1, 9, 4, 6, 5, 5}
+	var arr = []int{1, 2, 3}
 	nextPermutation(arr)
 	fmt.Println(arr)
 }

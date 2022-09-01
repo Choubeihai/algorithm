@@ -21,6 +21,24 @@ func swapPairs(head *ListNode) *ListNode {
 	return dummy.Next
 }
 
+// 方法二
+func swapPairs2(head *ListNode) *ListNode {
+	var dummy = &ListNode{}
+	dummy.Next = head
+	var p = dummy
+	for p.Next != nil && p.Next.Next != nil {
+		p1 := p.Next.Next.Next
+		p.Next.Next.Next = nil
+
+		p2 := p.Next
+		p.Next = p.Next.Next
+		p.Next.Next = p2
+		p2.Next = p1
+		p = p2
+	}
+	return dummy.Next
+}
+
 type ListNode struct {
 	Val  int
 	Next *ListNode

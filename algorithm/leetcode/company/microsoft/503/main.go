@@ -32,8 +32,9 @@ func nextGreaterElements2(nums []int) []int {
 	}
 	for i := 0; i < 2*n-1; i++ {
 		index := i % n
-		for p != -1 && nums[stack[p]] < nums[index] {
-			res[stack[p]] = nums[index]
+		for p >= 0 && nums[stack[p]] < nums[index] {
+			cur := stack[p]
+			res[cur] = nums[index]
 			p--
 		}
 		p++

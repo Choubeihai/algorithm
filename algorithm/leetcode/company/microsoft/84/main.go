@@ -18,41 +18,34 @@ func largestRectangleArea(heights []int) int {
 
 	for i := 0; i < n; i++ {
 		for p >= 0 && heights[stack[p]] >= heights[i] {
-			index := stack[p]
-			height := heights[index]
+			cur := stack[p]
 			p--
 			var left int
 			var right int
 			if p == -1 {
 				left = 0
 			} else {
-				left = stack[p]
+				left = stack[p] + 1
 			}
 			right = i - 1
-			res = max(res, (right-left+1)*height)
+			res = max(res, (right-left+1)*heights[cur])
 		}
 		p++
 		stack[p] = i
 	}
 
 	for p >= 0 {
-		index := stack[p]
-		height := heights[index]
+		cur := stack[p]
 		p--
-
 		var left int
 		var right int
 		if p == -1 {
-
-		}
-
-		var width int
-		if p == -1 {
-			width = n
+			left = 0
 		} else {
-			width = (n - 1) - (stack[p] + 1) - 1
+			left = stack[p] + 1
 		}
-		res = max(res, width*height)
+		right = n - 1
+		res = max(res, (right-left+1)*heights[cur])
 	}
 	return res
 }
