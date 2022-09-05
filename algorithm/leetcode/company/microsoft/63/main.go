@@ -50,17 +50,15 @@ func uniquePathsWithObstacles2(obstacleGrid [][]int) int {
 }
 
 // 记忆化搜索
+var memo [][]int // 到达x,y点时有几条方案。
+var dir [][]int
 var m int
 var n int
-var memo [][]int
-var direction [][]int
-var myObstacleGrid [][]int
 
 func uniquePathsWithObstacles(obstacleGrid [][]int) int {
-	myObstacleGrid = obstacleGrid
 	m = len(obstacleGrid)
 	n = len(obstacleGrid[0])
-	direction = [][]int{{1, 0}, {0, 1}}
+	dir = [][]int{{1, 0}, {0, 1}}
 	memo = make([][]int, m)
 	for i := 0; i < m; i++ {
 		memo[i] = make([]int, n)
@@ -68,28 +66,31 @@ func uniquePathsWithObstacles(obstacleGrid [][]int) int {
 			memo[i][j] = -1
 		}
 	}
-	res := dfs(0, 0)
+	res := dfs(obstacleGrid, 0, 0)
 	return res
 }
 
-func dfs(x, y int) int {
-	if memo[x][y] != -1 {
-		return memo[x][y]
+func dfs(obstacleGrid [][]int, x, y int) int {
+	if x >= m || x < 0 || y >= n || y < 0 {
+		return 0
 	}
-	if myObstacleGrid[x][y] == 1 {
-		memo[x][y] = 0
-		return memo[x][y]
+	if obstacleGrid[x][y] == 1 {
+		return 0
 	}
-	if x == m-1 && y == n-1 {
-		memo[x][y] = 1
-		return memo[x][y]
+	if x == len(obstacleGrid)-1 && y == len(obstacleGrid[0])-1 {
+		return 1
 	}
 	memo[x][y] = 0
 	for i := 0; i < 2; i++ {
-		newX := x + direction[i][0]
-		newY := y + direction[i][1]
+		newX := x + dir[i][0]
+		newY := y + dir[i][1]
 		if newX >= 0 && newY >= 0 && newX <= m-1 && newY <= n-1 {
-			memo[x][y] = memo[x][y] + dfs(newX, newY)
+			if memo[newX][newY] != -1 {
+				memo[x][y] += memo[newX][newY]
+			} else {
+				memo[newX][newY] = dfs(obstacleGrid, newX, newY)
+				memo[x][y] += memo[newX][newY]
+			}
 		}
 	}
 	return memo[x][y]
