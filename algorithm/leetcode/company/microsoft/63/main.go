@@ -80,6 +80,7 @@ func dfs(obstacleGrid [][]int, x, y int) int {
 	if x == len(obstacleGrid)-1 && y == len(obstacleGrid[0])-1 {
 		return 1
 	}
+
 	memo[x][y] = 0
 	for i := 0; i < 2; i++ {
 		newX := x + dir[i][0]

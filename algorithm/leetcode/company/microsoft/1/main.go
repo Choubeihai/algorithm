@@ -1,7 +1,11 @@
 package main
 
-func main() {
+import "fmt"
 
+func main() {
+	b := 'a'
+	fmt.Printf("%T ", string(b))
+	fmt.Println(string(b))
 }
 
 func twoSum(nums []int, target int) []int {
