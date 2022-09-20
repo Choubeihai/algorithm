@@ -27,6 +27,7 @@ func PredictTheWinner(nums []int) bool {
 	} else {
 		return false
 	}
+
 }
 
 func max(a, b int) int {
