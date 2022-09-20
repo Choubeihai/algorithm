@@ -1,6 +1,7 @@
 package main
 
 // 和486题很像
+
 func stoneGame(piles []int) bool {
 	var n = len(piles)
 	var dp = make([][]int, n) // f(x, y)：在区间[x,y]中，当前玩家与另一个玩家的差值

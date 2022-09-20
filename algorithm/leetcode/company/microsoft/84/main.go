@@ -5,51 +5,41 @@ func main() {
 }
 
 func largestRectangleArea(heights []int) int {
-	var n = len(heights)
-	if n == 0 {
-		return 0
-	}
+	n := len(heights)
 	if n == 1 {
 		return heights[0]
 	}
-	var res = 0
-	var stack = make([]int, n) // 严格单调递增栈
-	var p = -1
-
+	stack := make([]int, n) // 单调递增栈
+	p := -1
+	res := 0
 	for i := 0; i < n; i++ {
 		for p >= 0 && heights[stack[p]] >= heights[i] {
-			index := stack[p]
-			height := heights[index]
+			cur := stack[p]
 			p--
-			var left int
-			var right int
+			left := 0
+			right := 0
 			if p == -1 {
 				left = 0
 			} else {
-				left = stack[p]
+				left = stack[p] + 1
 			}
 			right = i - 1
-			res = max(res, (right-left+1)*height)
+			res = max(res, (right-left+1)*heights[cur])
 		}
 		p++
 		stack[p] = i
 	}
-
 	for p >= 0 {
-		index := stack[p]
-		height := heights[index]
+		cur := stack[p]
 		p--
+		left := 0
+		right := n - 1
 		if p == -1 {
-
-		}
-
-		var width int
-		if p == -1 {
-			width = n
+			left = 0
 		} else {
-			width = (n - 1) - (stack[p] + 1) - 1
+			left = stack[p] + 1
 		}
-		res = max(res, width*height)
+		res = max(res, (right-left+1)*heights[cur])
 	}
 	return res
 }
