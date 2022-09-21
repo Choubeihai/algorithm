@@ -6,23 +6,33 @@ import (
 )
 
 func validIPAddress(queryIP string) string {
-	if sp := strings.Split(queryIP, "."); len(sp) == 4 {
-		for _, s := range sp {
-			if len(s) > 1 && s[0] == '0' {
+	list := strings.Split(queryIP, ".")
+	if len(list) == 4 {
+		for i := 0; i < 4; i++ {
+			if len(list[i]) > 1 && list[i][0] == '0' {
 				return "Neither"
 			}
-			if v, err := strconv.Atoi(s); err != nil || v > 255 {
+			v, err := strconv.Atoi(list[i])
+			if err != nil {
+				return "Neither"
+			}
+			if v > 255 {
 				return "Neither"
 			}
 		}
 		return "IPv4"
 	}
-	if sp := strings.Split(queryIP, ":"); len(sp) == 8 {
-		for _, s := range sp {
-			if len(s) > 4 {
+	list = strings.Split(queryIP, ":")
+	if len(list) == 8 {
+		for i := 0; i < 8; i++ {
+			if len(list[i]) > 4 {
 				return "Neither"
 			}
-			if _, err := strconv.ParseUint(s, 16, 64); err != nil {
+			v, err := strconv.ParseInt(list[i], 16, 0)
+			if err != nil {
+				return "Neither"
+			}
+			if v > 65535 {
 				return "Neither"
 			}
 		}
