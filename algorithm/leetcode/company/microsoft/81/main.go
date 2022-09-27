@@ -14,7 +14,7 @@ func main() {
 
 // 和leetcode 33 题很像
 func search(nums []int, target int) bool {
-	var n = len(nums)
+	n := len(nums)
 	return find(nums, 0, n-1, target)
 }
 
@@ -26,19 +26,8 @@ func find(nums []int, left, right int, target int) bool {
 			return false
 		}
 	}
-
 	mid := (left + right) / 2
-
-	if nums[mid] == target {
-		return true
-	}
-	if nums[left] == target {
-		return true
-	}
-	if nums[right] == target {
-		return true
-	}
-	if nums[left] == nums[mid] {
+	if nums[left] == nums[mid] && left != mid {
 		return find(nums, left+1, right, target)
 	}
 	if nums[left] <= nums[mid] { // 左侧有序，一定要加=，因为left可能等于mid
