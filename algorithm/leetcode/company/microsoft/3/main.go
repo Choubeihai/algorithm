@@ -9,15 +9,11 @@ func lengthOfLongestSubstring(s string) int {
 			if start < v+1 {
 				start = v + 1
 			}
-			m[s[i]] = i
-
-		} else {
-			m[s[i]] = i
 		}
+		m[s[i]] = i
 		if i-start+1 > res {
 			res = i - start + 1
 		}
 	}
 	return res
-
 }
