@@ -5,48 +5,44 @@ type ListNode struct {
 	Next *ListNode
 }
 
-// 利用分治法
 func mergeKLists(lists []*ListNode) *ListNode {
-	var n = len(lists)
+	n := len(lists)
 	if n == 0 {
 		return nil
 	}
-	var m = (n + 1) / 2
-	var mid = n / 2
 	for n != 1 {
-		for i := 0; i < mid; i++ {
-			lists[i] = merge(lists[i], lists[i+m])
+		k := (n + 1) / 2
+		for i := 0; i < n/2; i++ {
+			lists[i] = merge(lists[i], lists[i+k])
 		}
-		n = m
-		m = (n + 1) / 2
-		mid = n / 2
+		n = k
 	}
 	return lists[0]
 }
 
-func merge(list1 *ListNode, list2 *ListNode) *ListNode {
+func merge(l1, l2 *ListNode) *ListNode {
 	dummy := &ListNode{}
 	p := dummy
-	for list1 != nil && list2 != nil {
-		if list1.Val <= list2.Val {
-			p.Next = list1
+	for l1 != nil && l2 != nil {
+		if l1.Val <= l2.Val {
+			p.Next = l1
 			p = p.Next
-			list1 = list1.Next
+			l1 = l1.Next
 		} else {
-			p.Next = list2
+			p.Next = l2
+			l2 = l2.Next
 			p = p.Next
-			list2 = list2.Next
 		}
 	}
-	for list1 != nil {
-		p.Next = list1
+	for l1 != nil {
+		p.Next = l1
+		l1 = l1.Next
 		p = p.Next
-		list1 = list1.Next
 	}
-	for list2 != nil {
-		p.Next = list2
+	for l2 != nil {
+		p.Next = l2
+		l2 = l2.Next
 		p = p.Next
-		list2 = list2.Next
 	}
 	return dummy.Next
 }

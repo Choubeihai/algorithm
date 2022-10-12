@@ -1,18 +1,12 @@
 package main
 
-import (
-	"bytes"
-)
-
 /**
 N皇后问题
 */
 
-var nn int
 var res [][]string
 
 func solveNQueens(n int) [][]string {
-	nn = n
 	res = nil
 	var board = make([][]byte, n)
 	for i := 0; i < n; i++ {
@@ -23,25 +17,25 @@ func solveNQueens(n int) [][]string {
 }
 
 func dfs(board [][]byte, row int) {
-	if row == nn {
+	if row == len(board) {
 		var tmpRes []string
 		for i := 0; i < len(board); i++ {
-			bb := &bytes.Buffer{}
+			s := ""
 			for j := 0; j < len(board[0]); j++ {
 				if board[i][j] == 'Q' {
-					bb.WriteByte(board[i][j])
+					s += string(board[i][j])
 				} else {
-					bb.WriteByte('.')
+					s += "."
 				}
 			}
-			tmpRes = append(tmpRes, bb.String())
+			tmpRes = append(tmpRes, s)
 		}
 		res = append(res, tmpRes)
 		return
 	}
 
 	// 这一行的所有列
-	for i := 0; i < nn; i++ {
+	for i := 0; i < len(board[0]); i++ {
 		x := row
 		y := i
 		flag := false // 没有Q
@@ -63,7 +57,7 @@ func dfs(board [][]byte, row int) {
 			y = i
 			x--
 			y++
-			for x >= 0 && y < nn {
+			for x >= 0 && y < len(board[0]) {
 				if board[x][y] == 'Q' {
 					flag = true
 					break
