@@ -6,9 +6,9 @@ func insert(intervals [][]int, newInterval []int) [][]int {
 	added := false //是否已经被添加进去
 
 	for i := 0; i < len(intervals); i++ {
-		if intervals[i][1] < left { // 新成员在左边且无交叉
+		if intervals[i][1] < left { // 新成员在右边且无交叉
 			res = append(res, intervals[i])
-		} else if intervals[i][0] > right { // 新成员在右边且无交叉
+		} else if intervals[i][0] > right { // 新成员在左边且无交叉
 			if !added {
 				res = append(res, []int{left, right})
 				added = true

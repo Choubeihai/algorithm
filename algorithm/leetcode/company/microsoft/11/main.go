@@ -7,14 +7,13 @@ S = (y-x)*min{height(x), height(y)}
 */
 
 func maxArea(height []int) int {
-	var res = 0
-	var left = 0
-	var right = len(height) - 1
+	left := 0
+	right := len(height) - 1
+	res := 0
+
 	for left < right {
-		area := min(height[left], height[right]) * (right - left)
-		if area > res {
-			res = area
-		}
+		h := min(height[left], height[right])
+		res = max(res, h*(right-left))
 		if height[left] < height[right] {
 			left++
 		} else {
@@ -24,10 +23,18 @@ func maxArea(height []int) int {
 	return res
 }
 
-func min(x, y int) int {
-	if x <= y {
-		return x
+func min(a, b int) int {
+	if a <= b {
+		return a
 	} else {
-		return y
+		return b
+	}
+}
+
+func max(a, b int) int {
+	if a >= b {
+		return a
+	} else {
+		return b
 	}
 }
