@@ -1,23 +1,21 @@
 package main
 
 func canCompleteCircuit(gas []int, cost []int) int {
-	n := len(gas)
-	var i = 0
-	for i < n {
-		var j = 0
-		var leftGas = 0
-		for j < n {
-			k := (i + j) % n
-			leftGas = leftGas + (gas[k] - cost[k])
+	for i := 0; i < len(gas); {
+		leftGas := 0
+		j := 0
+		for ; j < len(gas); j++ {
+			k := (i + j) % len(gas)
+			leftGas = leftGas + gas[k] - cost[k]
 			if leftGas < 0 {
 				break
 			}
-			j++
 		}
-		if j == n {
+		if j == len(gas) {
 			return i
+		} else {
+			i = i + j + 1
 		}
-		i = i + j + 1
 	}
 	return -1
 }

@@ -1,12 +1,10 @@
 package main
 
 var dp [][]bool
-var ss string
 var res [][]string
 
 func partition(s string) [][]string {
 	n := len(s)
-	ss = s
 	res = nil
 	dp = make([][]bool, n)
 	for i := 0; i < n; i++ {
@@ -29,25 +27,24 @@ func partition(s string) [][]string {
 			}
 		}
 	}
-	dfs(0, []string{})
+	dfs(s, 0, []string{})
 	return res
 }
 
-func dfs(index int, path []string) {
-	if index == len(ss) {
-		var ans = make([]string, len(path))
-		copy(ans, path)
-		res = append(res, ans)
+func dfs(s string, startIdx int, b []string) {
+	if startIdx == len(s) {
+		c := make([]string, len(b))
+		copy(c, b)
+		res = append(res, c)
 		return
 	}
-	for i := index; i < len(ss); i++ {
-		if !dp[index][i] {
+	for i := startIdx; i < len(s); i++ {
+		if dp[startIdx][i] == false {
 			continue
 		} else {
-			subS := ss[index : i+1]
-			path = append(path, subS)
-			dfs(i+1, path)
-			path = path[:len(path)-1]
+			b = append(b, s[startIdx:i+1])
+			dfs(s, i+1, b)
+			b = b[:len(b)-1]
 		}
 	}
 }
